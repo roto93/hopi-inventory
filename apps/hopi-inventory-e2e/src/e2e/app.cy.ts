@@ -4,6 +4,7 @@ describe('hopi-inventory-e2e', () => {
   beforeEach(() => cy.visit('/'));
 
   it('should display welcome message', () => {
+    cy.contains('Welcome').should('exist')
     // Custom command example, see `../support/commands.ts` file
     cy.login('my-email@something.com', 'myPassword');
 

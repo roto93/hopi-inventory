@@ -1,0 +1,64 @@
+{
+  "name": "hopi-inventory-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/hopi-inventory-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/hopi-inventory-api",
+        "main": "apps/hopi-inventory-api/src/main.ts",
+        "tsConfig": "apps/hopi-inventory-api/tsconfig.app.json",
+        "assets": ["apps/hopi-inventory-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/hopi-inventory-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "hopi-inventory-api:build"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "hopi-inventory-api:build:development"
+        },
+        "production": {
+          "buildTarget": "hopi-inventory-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/hopi-inventory-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/hopi-inventory-api/jest.config.ts",
+        "passWithNoTests": true
+      },
+      "configurations": {
+        "ci": {
+          "ci": true,
+          "codeCoverage": true
+        }
+      }
+    }
+  },
+  "tags": []
+}
