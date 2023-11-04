@@ -9,6 +9,9 @@
 
     // https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
     "lib": ["DOM.Iterable", "DOM"],
+    "paths": {
+      "@/*": ["./apps/hopi-inventory/src/*"]
+    }
   },
   "files": [],
   "include": [],
