@@ -12,6 +12,7 @@
     "express": "^4.18.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.48.2",
     "react-router-dom": "^6.17.0",
     "recoil": "^0.7.7",
     "tslib": "^2.6.2"
