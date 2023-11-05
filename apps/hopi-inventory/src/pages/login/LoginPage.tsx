@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import styles from './styles/app.module.scss';
 
 const LoginPage = () => {
 
@@ -14,7 +13,14 @@ const LoginPage = () => {
     // https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
     const obj = Object.fromEntries(formData.entries())
 
+    try {
+      // call log in API
+      // if log in 
+    } catch (e) {
+      // if error
+    }
   }
+
 
   return (
     <div>
@@ -22,14 +28,24 @@ const LoginPage = () => {
         <div>
           <label>
             email
-            <input type="email" name='email' />
+            <input
+              type="email"
+              name="email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
           </label>
         </div>
 
         <div>
           <label>
             password
-            <input type="password" name='password' />
+            <input
+              type="password"
+              name="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
           </label>
 
           <button type='submit'>submit</button>

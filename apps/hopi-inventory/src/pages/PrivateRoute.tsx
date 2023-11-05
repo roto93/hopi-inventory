@@ -1,10 +1,7 @@
+import { User } from '@/atoms/user.atom'
 import { FC } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
 
-type User = {
-  username: string
-  email: string
-}
 
 interface Prop {
   user?: User
