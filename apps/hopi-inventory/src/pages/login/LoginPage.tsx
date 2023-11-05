@@ -24,35 +24,38 @@ const LoginPage = () => {
 
   return (
     <div>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label>
-            email
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-          </label>
-        </div>
+    <form onSubmit={onSubmit}>
+      <div>
+        <label>
+          <p>email</p>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </label>
+      </div>
 
-        <div>
-          <label>
-            password
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </label>
+      <br />
 
-          <button type='submit'>submit</button>
+      <div>
+        <label>
+          <p>password</p>
+          <input
+            type="password"
+            name="password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </label>
+      </div>
 
-        </div>
-      </form>
-    </div>
+      <br />
+      
+      <button type='submit'>submit</button>
+    </form>
+  </div>
   );
 }
 
