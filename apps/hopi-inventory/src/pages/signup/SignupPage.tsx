@@ -1,71 +1,51 @@
-import React, { useState } from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import styles from './SignupPage.module.scss'
+import useSignupForm from './useSignupForm'
+
+interface Inputs {
+  email: string
+  password: string
+  confirmPassword: string
+}
 
 const SignupPage = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const {
+    registers,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useSignupForm()
 
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    // have to set up tsconfig for formData.entries to work
-    // https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
-    const obj = Object.fromEntries(formData.entries())
-
+  const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
-      // call log in API
-      // if log in 
-    } catch (e) {
-      // if error
+      const res = await fetch('http://localhost:3333/signup', { method: "post" })
+      const json = await res.json()
+      reset()
+    } catch (e: any) {
+      alert(e.message)
     }
   }
 
-
   return (
-    <div>
-      <form onSubmit={onSubmit}>
-        <div>
-          <label>
-            <p>email</p>
-            <input
-              type="email"
-              name="email"
-              value={email}
-              onChange={e => setEmail(e.target.value)}
-            />
-          </label>
-        </div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Sign up</h1>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <label>
+          <p>email</p>
+          <input {...registers.email} />
+        </label>
 
-        <br />
+        <label>
+          <p>password</p>
+          <input {...registers.password} />
+        </label>
 
-        <div>
-          <label>
-            <p>password</p>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
+        <label>
+          <p>confirm password</p>
+          <input {...registers.confirmPassword} />
+          {errors.confirmPassword && errors.confirmPassword.message}
+        </label>
 
-        <br />
-
-        <div>
-          <label>
-            <p>confirm password</p>
-            <input
-              type="password"
-              name="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-            />
-          </label>
-        </div>
-
-        <br />
-        
         <button type='submit'>submit</button>
       </form>
     </div>

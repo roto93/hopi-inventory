@@ -1,61 +1,37 @@
-import { useState } from 'react';
+import { SubmitHandler } from 'react-hook-form';
+import styles from './LoginPage.module.scss';
+import useLoginForm, { loginInputs } from './useLoginForm';
 
 const LoginPage = () => {
+  const {
+    registers,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useLoginForm()
 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    const formData = new FormData(e.currentTarget)
-
-    // have to set up tsconfig for formData.entries to work
-    // https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
-    const obj = Object.fromEntries(formData.entries())
-
-    try {
-      // call log in API
-      // if log in 
-    } catch (e) {
-      // if error
-    }
+  const onSubmit: SubmitHandler<loginInputs> = (data) => {
+    alert(JSON.stringify(data))
+    reset()
   }
 
-
   return (
-    <div>
-    <form onSubmit={onSubmit}>
-      <div>
+    <div className={styles.container}>
+      <h1 className={styles.title}>Log in</h1>
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <label>
           <p>email</p>
-          <input
-            type="email"
-            name="email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
+          <input {...registers.email} />
         </label>
-      </div>
 
-      <br />
-
-      <div>
         <label>
           <p>password</p>
-          <input
-            type="password"
-            name="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
+          <input {...registers.password} />
         </label>
-      </div>
 
-      <br />
-      
-      <button type='submit'>submit</button>
-    </form>
-  </div>
+        <button type='submit'>submit</button>
+      </form>
+    </div>
   );
 }
 
