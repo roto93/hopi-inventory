@@ -1,10 +1,10 @@
 import bcrypt from 'bcrypt'
 import { Request, Response } from 'express'
-import { user } from '../main'
+import { users } from '../main'
 
 export const register = async (req: Request, res: Response) => {
   const { email, password } = req.body
-  const userFound = user.find(i => i.email === email)
+  const userFound = users.find(i => i.email === email)
 
   if (userFound) {
     const message = 'You are already registered before. Please sign in.'
@@ -14,7 +14,7 @@ export const register = async (req: Request, res: Response) => {
 
   // create new user
   const hashedPassword = await bcrypt.hash(password, 10)
-  user.push({
+  users.push({
     id: Date.now().toString(),
     email,
     password: hashedPassword
@@ -27,7 +27,7 @@ export const register = async (req: Request, res: Response) => {
 
 export const login = async (req: Request, res: Response) => {
   const { email, passwords } = req.body
-  const userFound = user.find(i => i.email === email)
+  const userFound = users.find(i => i.email === email)
 
   if (userFound) {
     const message = 'Logged in!'

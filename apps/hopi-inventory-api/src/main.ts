@@ -4,7 +4,7 @@ import * as path from 'path';
 import userRoutes from './routes/userRoutes';
 
 // mock database
-export const user = []
+export const users = []
 
 const app = express();
 app.use(cors())
