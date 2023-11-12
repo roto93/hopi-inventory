@@ -5,11 +5,9 @@ import { login, register } from '../controllers/userController'
 
 const router = express.Router()
 
-router.route('/register')
-  .post(asyncHandler(register))
+router.post('/register', asyncHandler(register))
 
-router.route('/login')
-  .post(asyncHandler(login))
+router.post('/login', asyncHandler(login))
 
 const userRoutes = router
 
