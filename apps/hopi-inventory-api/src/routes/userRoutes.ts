@@ -1,13 +1,19 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
-import { login, register } from '../controllers/userController'
+import passport from 'passport'
+import { loginFailed, loginSuccess, register } from '../controllers/userController'
 
 
 const router = express.Router()
 
 router.post('/register', asyncHandler(register))
 
-router.post('/login', asyncHandler(login))
+router.post('/login', passport.authenticate('local', {
+  failureRedirect: '/user/loginFailed',
+  failureFlash: true
+}), asyncHandler(loginSuccess))
+
+router.get('/loginFailed', asyncHandler(loginFailed))
 
 const userRoutes = router
 
