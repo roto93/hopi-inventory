@@ -16,7 +16,13 @@
         "name": "next"
       }
     ],
-    "types": ["jest", "node"]
+    "types": ["jest", "node"],
+
+    // https://stackoverflow.com/questions/50677868/error-ts2339-property-entries-does-not-exist-on-type-formdata
+    "lib": ["DOM.Iterable", "DOM"],
+    "paths": {
+      "@/*": ["./apps/hopi-inventory-next/app/*"]
+    }
   },
   "include": [
     "**/*.ts",
