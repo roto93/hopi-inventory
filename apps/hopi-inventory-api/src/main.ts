@@ -6,13 +6,12 @@ import session from 'express-session';
 import passport from 'passport';
 import * as path from 'path';
 import init from './configs/passportConfig';
-import userRoutes from './routes/userRoutes';
+import authRoutes from './routes/authRoutes';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-init(passport)
 
 // mock database
 export const users = []
@@ -28,11 +27,15 @@ app.use(session({
   resave: false,
   saveUninitialized: false
 }))
+
+init(passport)
 app.use(passport.initialize())
 app.use(passport.session())
 
+
 // Routes
-app.use('/user', userRoutes)
+app.use('/auth', authRoutes)
+
 
 const port = process.env.PORT || 3333;
 const server = app.listen(port, () => {
