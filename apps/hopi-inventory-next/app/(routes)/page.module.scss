@@ -1,2 +1,7 @@
+@import '../_styles/mixins';
+
 .page {
+  @include flexbox(column, center, center, 20px);
+  width: 100%;
+  height: 100%;
 }

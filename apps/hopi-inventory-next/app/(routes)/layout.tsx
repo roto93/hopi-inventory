@@ -8,16 +8,16 @@ export const metadata: Metadata = {
   description: 'Hopi Inventory',
 };
 
-export default function RootLayout({
-  children,
-}: {
+interface Prop {
   children: React.ReactNode;
-}) {
+}
+
+export default function RootLayout({ children, }: Prop) {
   return (
     <html lang="en">
       <body>
         <Header />
-        <main>
+        <main className='main'>
           {children}
         </main>
       </body>

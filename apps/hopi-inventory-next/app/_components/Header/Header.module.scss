@@ -1,5 +1,8 @@
 @import '../../_styles/mixins';
 
 .container {
-  border: 1px solid red;
+  @include flexbox(row, space-between, center, 16px);
+  height: 60px;
+  padding: 0 40px;
+  background-color: #aaa;
 }
