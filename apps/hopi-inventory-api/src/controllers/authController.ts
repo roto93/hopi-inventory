@@ -39,7 +39,8 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
 
 export const loginSuccess = async (req: Request, res: Response) => {
   const message = 'Logged in!'
-  res.status(200).json({ message })
+  const user = req.user
+  res.status(200).json({ message, userID: user.id })
 }
 
 
