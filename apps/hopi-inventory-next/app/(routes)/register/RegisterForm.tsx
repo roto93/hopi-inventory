@@ -34,7 +34,6 @@ const RegisterForm = () => {
   return (
     <Form
       layout='vertical'
-      style={{ maxWidth: 400, padding: 20 }}
       onFinish={handleSubmit(onSubmit)}
     >
       <Form.Item

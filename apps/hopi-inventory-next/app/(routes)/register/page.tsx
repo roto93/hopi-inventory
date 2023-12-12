@@ -1,9 +1,12 @@
 import RegisterForm from './RegisterForm'
+import styles from './register.module.scss'
 
 const RegisterPage = () => {
   return (
-    <div>
-      <RegisterForm />
+    <div className={styles.container}>
+      <div className={styles.formContainer}>
+        <RegisterForm />
+      </div>
     </div>
   )
 }
