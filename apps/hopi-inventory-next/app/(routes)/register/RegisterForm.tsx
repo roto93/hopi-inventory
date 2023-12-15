@@ -4,6 +4,8 @@ import React from 'react'
 import useSignupForm, { signupInputs } from './useSignupForm'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input } from 'antd'
+import { setUser } from '@/_lib/storageHelper'
+import { useRouter } from 'next/navigation'
 
 const RegisterForm = () => {
   const {
@@ -14,6 +16,7 @@ const RegisterForm = () => {
     watch,
     control
   } = useSignupForm()
+  const router = useRouter()
 
   const onSubmit: SubmitHandler<signupInputs> = async (data) => {
     try {
@@ -25,7 +28,11 @@ const RegisterForm = () => {
         body: JSON.stringify(data)
       })
       const json = await res.json()
-      reset()
+      console.log(json)
+      if (json.status === 'Success') {
+        router.replace('/login')
+        reset()
+      }
     } catch (e: any) {
       alert(e.message)
     }
