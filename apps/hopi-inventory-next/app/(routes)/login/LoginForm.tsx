@@ -1,13 +1,16 @@
 'use client'
 
-import React from 'react'
-import useLoginForm, { loginInputs } from './useLoginForm'
-import { Controller, SubmitHandler } from 'react-hook-form'
+import useAuth from '@/_hooks/useAuth'
+import { loginQuery } from '@/_lib/queries'
+import { setUser } from '@/_lib/storageHelper'
 import { Button, Form, Input } from 'antd'
 import { useRouter } from 'next/navigation'
-import { setUser } from '@/_lib/storageHelper'
+import { Controller, SubmitHandler } from 'react-hook-form'
+import useLoginForm, { loginInputs } from './useLoginForm'
 
 const LoginForm = () => {
+  useAuth(false)
+
   const {
     registers,
     formState,
@@ -16,27 +19,20 @@ const LoginForm = () => {
     watch,
     control
   } = useLoginForm()
+
   const router = useRouter()
 
-  const onSubmit: SubmitHandler<loginInputs> = async (data) => {
+  const onSubmit: SubmitHandler<loginInputs> = async (_data) => {
     try {
-      const res = await fetch('http://localhost:3333/auth/login', {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: 'include',
-        body: JSON.stringify(data)
-      })
-      const json = await res.json()
-      if (json.status === 'Success') {
-        setUser(json.userID)
+      const data = await loginQuery(_data)
+      if (data.status === 'Success') {
+        setUser(data.userID)
         router.replace('/user')
-        alert(json.message)
         reset()
       }
     } catch (e: any) {
-      alert(e.message)
+      console.log(e.response.data.message)
+      alert(e.response.data.message)
     }
   }
 

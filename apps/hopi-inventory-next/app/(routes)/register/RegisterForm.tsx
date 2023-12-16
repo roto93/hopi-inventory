@@ -6,8 +6,11 @@ import { Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input } from 'antd'
 import { setUser } from '@/_lib/storageHelper'
 import { useRouter } from 'next/navigation'
+import { registerQuery } from '@/_lib/queries'
+import useAuth from '@/_hooks/useAuth'
 
 const RegisterForm = () => {
+  useAuth(false)
   const {
     registers,
     formState,
@@ -17,18 +20,9 @@ const RegisterForm = () => {
     control
   } = useSignupForm()
   const router = useRouter()
-
   const onSubmit: SubmitHandler<signupInputs> = async (data) => {
     try {
-      const res = await fetch('http://localhost:3333/auth/register', {
-        method: "post",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(data)
-      })
-      const json = await res.json()
-      console.log(json)
+      const json = await registerQuery(data)
       if (json.status === 'Success') {
         router.replace('/login')
         reset()
