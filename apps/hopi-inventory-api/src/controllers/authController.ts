@@ -9,7 +9,7 @@ export const register = async (req: Request, res: Response) => {
   if (userFound) {
     const message = 'You are already registered before. Please sign in.'
     //https://stackoverflow.com/questions/9269040/which-http-response-code-for-this-email-is-already-registered
-    res.status(200).json({ message })
+    res.status(200).json({ status: 'Success', message })
     return
   }
 
@@ -22,7 +22,7 @@ export const register = async (req: Request, res: Response) => {
   })
 
   const message = 'Sign up successfully.'
-  res.status(201).json({ message })
+  res.status(201).json({ status: 'Success', message })
 }
 
 
@@ -40,28 +40,30 @@ export const logout = async (req: Request, res: Response, next: NextFunction) =>
 export const loginSuccess = async (req: Request, res: Response) => {
   const message = 'Logged in!'
   const user = req.user
-  res.status(200).json({status: 'Success', message, userID: user.id })
+  res.status(200).json({ status: 'Success', message, userID: user.id })
 }
 
 
 export const loginFailed = async (req: Request & { session: { messages: string } }, res: Response, next: NextFunction) => {
+  const error = req.flash('error')
   req.logout((e) => {
     if (e) next(e)
     res.status(401).json({
       status: 'Failed',
-      message: req.flash('error')
+      message: error
     })
   })
 }
 
 
 export const testPrivate = async (req: Request & { session: { messages: string } }, res: Response) => {
-  res.status(200).send('ok')
+  res.status(200).json({ status: 'Success', message: 'ok' })
 }
 
 export function checkAuth(req: Request, res: Response, next: NextFunction) {
   if (req.isAuthenticated() && req.user) {
     return next();
   }
+  console.log(req.flash('error'))
   res.redirect('/auth/loginFailed');
 }

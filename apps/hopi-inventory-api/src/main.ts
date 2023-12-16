@@ -17,7 +17,11 @@ if (process.env.NODE_ENV !== 'production') {
 export const users = []
 
 const app = express();
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:4200", // allow to server to accept request from different origin
+  methods: "GET,PUT,PATCH,POST,DELETE",
+  credentials: true
+}))
 app.use(express.json()) // json parser
 app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
