@@ -1,4 +1,5 @@
 import Header from '@/_components/Header/Header';
+import { PiToast } from '@/_components/PiToasts';
 import '@/_styles/global.css';
 import '@/_styles/reset.css';
 import { Metadata } from 'next';
@@ -20,6 +21,7 @@ export default function RootLayout({ children, }: Prop) {
         <main className='main'>
           {children}
         </main>
+        <PiToast />
       </body>
     </html>
   );

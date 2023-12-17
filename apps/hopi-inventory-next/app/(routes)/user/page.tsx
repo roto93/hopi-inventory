@@ -1,4 +1,5 @@
 'use client'
+import { PiToast, errorToast, successToast } from '@/_components/PiToasts'
 import useAuth from '@/_hooks/useAuth'
 import { logoutQuery } from '@/_lib/queries'
 import { logoutUser } from '@/_lib/storageHelper'
@@ -15,12 +16,12 @@ const UserPage = () => {
     try {
       const json = await logoutQuery()
       if (json.status === 'Success') {
-        alert(json.message)
+        successToast(json.message)
         logoutUser()
         router.replace('/')
       }
     } catch (e) {
-      alert(e)
+      errorToast(e as string)
     }
   }
 
@@ -33,6 +34,7 @@ const UserPage = () => {
       <Link href={'/'}> home </Link><br />
       <Link href={'/login'}> login </Link><br />
       <Link href={'/register'}> register </Link>
+      <PiToast />
     </div>
   )
 }

@@ -8,6 +8,7 @@ import { setUser } from '@/_lib/storageHelper'
 import { useRouter } from 'next/navigation'
 import { registerQuery } from '@/_lib/queries'
 import useAuth from '@/_hooks/useAuth'
+import { errorToast } from '@/_components/PiToasts'
 
 const RegisterForm = () => {
   const { isCheckingUser, currentUser } = useAuth(false)
@@ -30,7 +31,7 @@ const RegisterForm = () => {
         reset()
       }
     } catch (e: any) {
-      alert(e.message)
+      errorToast(e.message)
     }
   }
 

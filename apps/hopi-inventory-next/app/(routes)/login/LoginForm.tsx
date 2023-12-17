@@ -7,6 +7,7 @@ import { Button, Form, Input, Skeleton } from 'antd'
 import { useRouter } from 'next/navigation'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import useLoginForm, { loginInputs } from './useLoginForm'
+import { errorToast } from '@/_components/PiToasts'
 
 const LoginForm = () => {
   const { isCheckingUser, currentUser } = useAuth(false)
@@ -32,8 +33,7 @@ const LoginForm = () => {
         reset()
       }
     } catch (e: any) {
-      console.log(e.response.data.message)
-      alert(e.response.data.message)
+      errorToast(e.response.data.message)
     }
   }
 
