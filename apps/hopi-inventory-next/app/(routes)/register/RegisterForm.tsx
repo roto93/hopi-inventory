@@ -3,14 +3,16 @@
 import React from 'react'
 import useSignupForm, { signupInputs } from './useSignupForm'
 import { Controller, SubmitHandler } from 'react-hook-form'
-import { Button, Form, Input } from 'antd'
+import { Button, Form, Input, Skeleton } from 'antd'
 import { setUser } from '@/_lib/storageHelper'
 import { useRouter } from 'next/navigation'
 import { registerQuery } from '@/_lib/queries'
 import useAuth from '@/_hooks/useAuth'
 
 const RegisterForm = () => {
-  useAuth(false)
+  const { isCheckingUser, currentUser } = useAuth(false)
+  const canInteract = !isCheckingUser && currentUser === null
+
   const {
     registers,
     formState,
@@ -42,15 +44,18 @@ const RegisterForm = () => {
         hasFeedback={false}
         help={formState.errors.email?.message}
       >
-        <Controller
-          // React Hook Form integrate with UI library
-          // https://react-hook-form.com/get-started#IntegratingwithUIlibraries
-          name={'email'}
-          control={control}
-          render={({ field }) => (
-            <Input {...field} />
-          )}
-        />
+        {!canInteract
+          ? <Skeleton.Input block active />
+          : <Controller
+            // React Hook Form integrate with UI library
+            // https://react-hook-form.com/get-started#IntegratingwithUIlibraries
+            name={'email'}
+            control={control}
+            render={({ field }) => (
+              <Input {...field} />
+            )}
+          />
+        }
 
       </Form.Item>
 
@@ -59,13 +64,16 @@ const RegisterForm = () => {
         hasFeedback={false}
         help={formState.errors.password?.message}
       >
-        <Controller
-          name={'password'}
-          control={control}
-          render={({ field }) => (
-            <Input {...field} />
-          )}
-        />
+        {!canInteract
+          ? <Skeleton.Input block active />
+          : <Controller
+            name={'password'}
+            control={control}
+            render={({ field }) => (
+              <Input {...field} />
+            )}
+          />
+        }
       </Form.Item>
 
       <Form.Item
@@ -73,16 +81,22 @@ const RegisterForm = () => {
         hasFeedback={false}
         help={formState.errors.confirmPassword?.message}
       >
-        <Controller
-          name={'confirmPassword'}
-          control={control}
-          render={({ field }) => (
-            <Input {...field} />
-          )}
-        />
+        {!canInteract
+          ? <Skeleton.Input block active />
+          : <Controller
+            name={'confirmPassword'}
+            control={control}
+            render={({ field }) => (
+              <Input {...field} />
+            )}
+          />
+        }
       </Form.Item>
 
-      <Button htmlType='submit'> send </Button>
+      {!canInteract
+        ? <Skeleton.Button active block />
+        : <Button htmlType='submit' type='primary' block> Sign up </Button>
+      }
     </Form>
   )
 }

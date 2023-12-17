@@ -3,6 +3,7 @@ import useAuth from '@/_hooks/useAuth'
 import { logoutQuery } from '@/_lib/queries'
 import { logoutUser } from '@/_lib/storageHelper'
 import { Button } from 'antd'
+import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 const UserPage = () => {
@@ -28,7 +29,10 @@ const UserPage = () => {
       UserPage {currentUser}
       <Button onClick={logout}>
         log out
-      </Button>
+      </Button><br />
+      <Link href={'/'}> home </Link><br />
+      <Link href={'/login'}> login </Link><br />
+      <Link href={'/register'}> register </Link>
     </div>
   )
 }
