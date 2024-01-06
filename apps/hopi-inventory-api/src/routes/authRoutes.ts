@@ -4,24 +4,24 @@ import passport from 'passport'
 import { checkAuth, loginFailed, loginSuccess, logout, register, testPrivate } from '../controllers/authController'
 
 
-const userRoutes = express.Router()
+const authRoutes = express.Router()
 
-userRoutes.post('/register', asyncHandler(register))
+authRoutes.post('/register', asyncHandler(register))
 
 
-userRoutes.post('/login', passport.authenticate('local', {
+authRoutes.post('/login', passport.authenticate('local', {
   failureRedirect: '/auth/loginFailed',
   failureFlash: true
 }), asyncHandler(loginSuccess))
 
 
-userRoutes.post('/logout', asyncHandler(logout))
+authRoutes.post('/logout', asyncHandler(logout))
 
 
-userRoutes.get('/loginFailed', asyncHandler(loginFailed))
+authRoutes.get('/loginFailed', asyncHandler(loginFailed))
 
 
-userRoutes.get('/testPrivate', checkAuth, asyncHandler(testPrivate))
+authRoutes.get('/testPrivate', checkAuth, asyncHandler(testPrivate))
 
 
-export default userRoutes
+export default authRoutes
