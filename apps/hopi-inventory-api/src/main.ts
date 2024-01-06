@@ -8,6 +8,8 @@ import * as path from 'path';
 import init from './configs/passportConfig';
 import authRoutes from './routes/authRoutes';
 import mongoose from 'mongoose'
+import userRoutes from './routes/userRoutes';
+
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
@@ -37,6 +39,7 @@ app.use(passport.session())
 
 // Routes
 app.use('/auth', authRoutes)
+app.use('/user', userRoutes)
 
 
 mongoose.connect(process.env.MONGO_URL)

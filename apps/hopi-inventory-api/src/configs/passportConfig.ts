@@ -12,6 +12,7 @@ declare global {
     interface User {
       email: string;
       password: string;
+
       id?: string | undefined;
     }
   }
@@ -44,11 +45,11 @@ const init = (passport: PassportStatic) => {
 export default init
 
 const getUserByEmail = async (_email: string) => {
-  const user = await UserModel.find({ email: _email })
+  const user = await UserModel.find({ email: _email }).exec()
   return user?.[0] ?? null
 }
 
 export const getUserById = async (_id: string) => {
-  const user = await UserModel.findById(_id)
-  return user.toJSON() ?? null
+  const user = await UserModel.findById(_id, 'email username avatar').exec()
+  return user ?? null
 }
