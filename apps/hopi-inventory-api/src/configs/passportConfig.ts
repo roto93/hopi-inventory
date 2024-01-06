@@ -48,7 +48,7 @@ const getUserByEmail = async (_email: string) => {
   return user?.[0] ?? null
 }
 
-const getUserById = async (_id: string) => {
-  const user = await UserModel.findById({ _id: _id })
-  return user?.[0] ?? null
+export const getUserById = async (_id: string) => {
+  const user = await UserModel.findById(_id)
+  return user.toJSON() ?? null
 }
