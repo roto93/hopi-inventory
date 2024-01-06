@@ -7,14 +7,12 @@ import passport from 'passport';
 import * as path from 'path';
 import init from './configs/passportConfig';
 import authRoutes from './routes/authRoutes';
+import mongoose from 'mongoose'
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
 }
 
-
-// mock database
-export const users = []
 
 const app = express();
 app.use(cors({
@@ -41,8 +39,13 @@ app.use(passport.session())
 app.use('/auth', authRoutes)
 
 
-const port = process.env.PORT || 3333;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}/api`);
-});
-server.on('error', console.error);
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => {
+
+    const port = process.env.PORT || 3333;
+    const server = app.listen(port, () => {
+      console.log(`Connecting to database and listening at http://localhost:${port}/api`);
+    });
+    server.on('error', console.error);
+  })
+  .catch(e => console.error(e))

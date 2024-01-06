@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt'
 import { PassportStatic } from 'passport'
 import { IVerifyOptions, Strategy } from 'passport-local'
-import { users } from '../main'
+import UserModel from '../models/UserModel'
 
 type Done = (error: any, user?: false | Express.User, options?: IVerifyOptions) => void
 
@@ -19,7 +19,7 @@ declare global {
 
 const init = (passport: PassportStatic) => {
   const authenticateUser = async (email: string, password: string, done: Done) => {
-    const user = getUserByEmail(email)
+    const user = await getUserByEmail(email)
 
     if (!user) {
       return done(null, false, { message: 'No user with this email' })
@@ -37,16 +37,18 @@ const init = (passport: PassportStatic) => {
   }
   passport.use(new Strategy({ usernameField: 'email' }, authenticateUser))
   passport.serializeUser((user, done) => done(null, user.id))
-  passport.deserializeUser((id, done) => done(null, getUserById(id as string)))
+  passport.deserializeUser(async (id, done) => done(null, await getUserById(id as string)))
 }
 
 
 export default init
 
-const getUserByEmail = (_email: string) => {
-  return users.find(user => user.email === _email) ?? null
+const getUserByEmail = async (_email: string) => {
+  const user = await UserModel.find({ email: _email })
+  return user?.[0] ?? null
 }
 
-const getUserById = (_id: string) => {
-  return users.find(user => user.id === _id) ?? null
+const getUserById = async (_id: string) => {
+  const user = await UserModel.findById({ _id: _id })
+  return user?.[0] ?? null
 }

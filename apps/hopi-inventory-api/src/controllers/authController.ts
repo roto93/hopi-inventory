@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt'
 import { NextFunction, Request, Response } from 'express'
-import { users } from '../main'
+import User from '../models/UserModel'
 
 export const register = async (req: Request, res: Response) => {
-  const { email, password } = req.body
-  const userFound = users.find(i => i.email === email)
+  const { email, password, username } = req.body
 
+  // check if user exists
+  // const userFound = users.find(i => i.email === email)
+  const userFound = await (await User.find({ email })).length > 0
   if (userFound) {
     const message = 'You are already registered before. Please sign in.'
     //https://stackoverflow.com/questions/9269040/which-http-response-code-for-this-email-is-already-registered
@@ -14,15 +16,18 @@ export const register = async (req: Request, res: Response) => {
   }
 
   // create new user
-  const hashedPassword = await bcrypt.hash(password, 10)
-  users.push({
-    id: Date.now().toString(),
-    email,
-    password: hashedPassword
-  })
+  try {
+    const hashedPassword = await bcrypt.hash(password, 10)
+    const newUser = await User.create({ email, password: hashedPassword, username })
+    console.log('New User ID: ', newUser.id)
+    const message = 'Sign up successfully.'
+    res.status(201).json({ status: 'Success', message })
+  } catch (e) {
+    console.error(e)
+    res.status(500).json({ status: 'Failed', message: 'Error occured when creating new user. ' + e.message })
+    return
+  }
 
-  const message = 'Sign up successfully.'
-  res.status(201).json({ status: 'Success', message })
 }
 
 
