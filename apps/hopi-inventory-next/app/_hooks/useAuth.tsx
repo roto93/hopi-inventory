@@ -20,7 +20,6 @@ const useAuth = (isInUserPage: boolean = true) => {
       try {
         if (!cachedUserID) {
           if (isInUserPage) {
-            errorToast('Your session is expired. Please log in again.')
             router.replace('/')
           }
           setCurrentUser(null)
@@ -28,27 +27,23 @@ const useAuth = (isInUserPage: boolean = true) => {
         }
 
         setIsLoading(true)
+
         const res = await checkAuthQuery()
         const cacheValid = res.status !== 'Failed'
 
-        if (!isInUserPage) {
-          if (cacheValid) {
-            router.replace('/user')
-          }
-          return setIsLoading(false)
+        if (!isInUserPage && cacheValid) {
+          router.replace('/user')
+          setCurrentUser(cachedUserID)
         }
 
-        if (!cacheValid) {
+      } catch (e: any) {
+        console.log(e.message)
+        setCurrentUser(null)
+        if (isInUserPage) {
           errorToast('Your session is expired. Please log in again.')
           logoutUser()
           router.replace('/')
-          setCurrentUser(null)
-          return setIsLoading(false)
         }
-
-        setCurrentUser(cachedUserID)
-      } catch (e) {
-        errorToast(e as string)
       } finally {
         setIsLoading(false)
       }
@@ -58,7 +53,7 @@ const useAuth = (isInUserPage: boolean = true) => {
   }, [])
 
   return {
-    currentUser,
+    currentUser: currentUser,
     isCheckingUser: isLoading
   }
 }

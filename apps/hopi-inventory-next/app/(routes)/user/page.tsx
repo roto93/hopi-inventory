@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation'
 const UserPage = () => {
   const router = useRouter()
 
-  const { currentUser } = useAuth(true)
+  const { currentUser, isCheckingUser } = useAuth(true)
 
   const logout = async () => {
     try {
@@ -25,6 +25,7 @@ const UserPage = () => {
     }
   }
 
+  if (isCheckingUser || !currentUser) return null
   return (
     <div>
       UserPage {currentUser}

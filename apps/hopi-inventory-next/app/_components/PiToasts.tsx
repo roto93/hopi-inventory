@@ -6,7 +6,7 @@ export const successToast = (msg: string) => {
 }
 export const errorToast = (msg: string) => {
   toast.dismiss('error')
-  toast.error(msg, { id: 'error' })
+  toast.error(String(msg), { id: 'error' })
 }
 
 interface piPromiseOption {
