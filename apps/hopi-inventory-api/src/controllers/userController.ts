@@ -9,8 +9,29 @@ export const getUser = (req: Request, res: Response) => {
 }
 
 // update user
-export const updateUser = (req: Request, res: Response) => {
+export const updateUser = async (req: Request, res: Response) => {
+  const user = req.user
+  const { username, avatar } = req.body
 
+  const isInvalid = (field: unknown) => field !== undefined && typeof field !== 'string'
+
+  if (isInvalid(username) || isInvalid(avatar)) {
+    res.status(400).json({ status: 'Failed', message: 'Wrong data type.' })
+    return
+  }
+
+  try {
+    const query = User.findByIdAndUpdate(
+      user.id,
+      { username, avatar },
+      { new: true }
+    )
+    const newUser = await query
+    res.status(200).json({ status: 'Success', message: 'User updated.', data: { user: newUser } })
+  } catch (e) {
+    console.log(e.message)
+    res.status(500).json({ status: 'Failed', message: e.message })
+  }
 }
 
 
