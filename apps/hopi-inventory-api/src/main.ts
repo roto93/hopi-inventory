@@ -11,6 +11,7 @@ import mongoose from 'mongoose'
 import userRoutes from './routes/userRoutes';
 import MongoStore from 'connect-mongo'
 import eventRoutes from './routes/eventRouts';
+import categoryRoutes from './routes/categoryRoutes';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
@@ -68,6 +69,7 @@ mongoose.connect(process.env.MONGO_URL)
     app.use('/auth', authRoutes)
     app.use('/user', userRoutes)
     app.use('/event', eventRoutes)
+    app.use('/category', categoryRoutes)
 
 
     // start listening
