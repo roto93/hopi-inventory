@@ -44,16 +44,32 @@ export const createEvent = async (req: Request, res: Response) => {
     return
   }
 
+  const session = await Event.startSession()
+  session.startTransaction()
   try {
     // create new event
-    const newEvent = await Event.create({ name, userIDs: user.id, startDate, endDate, image })
+    const newEvent = await Event.create([{ name, userIDs: user.id, startDate, endDate, image }], { session })
 
     // add new event to user
-    await User.findByIdAndUpdate(user.id, { $push: { eventIDs: newEvent.id } }, { new: true })
+    const newUser = await User.findByIdAndUpdate(
+      user.id,
+      { $push: { eventIDs: newEvent[0].id } },
+      { session, new: true }
+    )
+
+    if (!newUser) {
+      await session.abortTransaction()
+      throw new Error(`User with ID ${user.id} not found.`);
+    }
+
+    await session.commitTransaction();
     res.status(200).json({ status: 'Success', message: 'New event created.', data: { event: newEvent } })
   } catch (e) {
     console.log(e)
+    await session.abortTransaction()
     res.status(500).json({ status: 'Failed', message: e.message })
+  } finally {
+    await session.endSession()
   }
 }
 
