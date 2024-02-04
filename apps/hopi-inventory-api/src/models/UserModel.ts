@@ -5,6 +5,7 @@ const userSchema = new Schema({
   password: { type: String, required: true },
   username: { type: String },
   avatar: { type: String },
+  eventIDs: [{ type: Schema.ObjectId, ref: 'Event' }]
 }, { timestamps: true })
 
 export default model('User', userSchema)

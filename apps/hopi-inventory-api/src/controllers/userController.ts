@@ -1,6 +1,5 @@
-import { NextFunction, Request, Response } from 'express'
+import { Request, Response } from 'express'
 import User from '../models/UserModel'
-import { getUserById } from '../configs/passportConfig'
 
 // get user object
 export const getUser = (req: Request, res: Response) => {
@@ -21,12 +20,11 @@ export const updateUser = async (req: Request, res: Response) => {
   }
 
   try {
-    const query = User.findByIdAndUpdate(
+    const newUser = await User.findByIdAndUpdate(
       user.id,
       { username, avatar },
       { new: true }
     )
-    const newUser = await query
     res.status(200).json({ status: 'Success', message: 'User updated.', data: { user: newUser } })
   } catch (e) {
     console.log(e.message)
