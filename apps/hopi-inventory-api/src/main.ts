@@ -10,7 +10,7 @@ import authRoutes from './routes/authRoutes';
 import mongoose from 'mongoose'
 import userRoutes from './routes/userRoutes';
 import MongoStore from 'connect-mongo'
-import eventRoutes from './routes/eventRouts';
+import eventRoutes from './routes/eventRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 
 if (process.env.NODE_ENV !== 'production') {
