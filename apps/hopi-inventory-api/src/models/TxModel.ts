@@ -6,9 +6,9 @@ const Order = new Schema({
 })
 
 const txSchema = new Schema({
-  time: { type: Date, require: true },
-  hostEventID: { type: Schema.ObjectId, require: true, ref: 'Event' },
-  orders: [{ type: Order, require: true }],
+  time: { type: Date, required: true },
+  hostEventID: { type: Schema.ObjectId, required: true, ref: 'Event' },
+  orders: [{ type: Order, required: true }],
 }, { timestamps: true })
 
 export default model('Tx', txSchema)

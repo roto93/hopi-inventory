@@ -4,7 +4,7 @@ const costSchema = new Schema({
   name: { type: String, required: true },
   amount: { type: Number, min: 0, required: true },
   image: { type: String },
-  hostEventID: { type: Schema.ObjectId, require: true, ref: 'Event' },
+  hostEventID: { type: Schema.ObjectId, required: true, ref: 'Event' }
 })
 
 export default model('Cost', costSchema)
