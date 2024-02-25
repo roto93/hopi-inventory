@@ -4,7 +4,7 @@ import { checkUserCanOperate } from './utils'
 
 
 
-// get a category
+// get a product
 export const getProduct = async (req: Request, res: Response) => {
   const userID = req.user.id
   const productID = req.params.productID
