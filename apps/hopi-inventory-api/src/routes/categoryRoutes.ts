@@ -1,16 +1,20 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { checkAuth } from '../controllers/authController'
-import { createCategory, deletedCategory, getCategoriesOfEvent } from '../controllers/categoryController'
+import { createCategory, deletedCategory, getCategoriesOfEvent, getCategory, updateCategory } from '../controllers/categoryController'
 
 
 const categoryRoutes = express.Router()
 
-categoryRoutes.get('/:eventID', checkAuth, asyncHandler(getCategoriesOfEvent))
+categoryRoutes.get('/:categoryID', checkAuth, asyncHandler(getCategory))
 
-categoryRoutes.post('/:eventID', checkAuth, asyncHandler(createCategory))
+categoryRoutes.get('/', checkAuth, asyncHandler(getCategoriesOfEvent))
 
-categoryRoutes.delete('/:eventID/:categoryID', checkAuth, asyncHandler(deletedCategory))
+categoryRoutes.post('/', checkAuth, asyncHandler(createCategory))
+
+categoryRoutes.patch('/', checkAuth, asyncHandler(updateCategory))
+
+categoryRoutes.delete('/', checkAuth, asyncHandler(deletedCategory))
 
 
 export default categoryRoutes
