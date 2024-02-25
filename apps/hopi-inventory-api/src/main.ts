@@ -12,6 +12,7 @@ import userRoutes from './routes/userRoutes';
 import MongoStore from 'connect-mongo'
 import eventRoutes from './routes/eventRoutes';
 import categoryRoutes from './routes/categoryRoutes';
+import costRoutes from './routes/costRoutes';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
@@ -23,14 +24,14 @@ const app = express();
 
 // allow to server to accept request from different origin
 app.use(cors({
-  origin: "http://localhost:4200", 
+  origin: "http://localhost:4200",
   methods: "GET,PUT,PATCH,POST,DELETE",
   credentials: true
 }))
 
 
 // json parser
-app.use(express.json()) 
+app.use(express.json())
 
 
 // client can access static files at /assets
@@ -70,6 +71,7 @@ mongoose.connect(process.env.MONGO_URL)
     app.use('/user', userRoutes)
     app.use('/event', eventRoutes)
     app.use('/category', categoryRoutes)
+    app.use('/cost', costRoutes)
 
 
     // start listening
