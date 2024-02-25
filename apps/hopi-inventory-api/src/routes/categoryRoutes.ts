@@ -1,7 +1,7 @@
 import express from 'express'
 import asyncHandler from 'express-async-handler'
 import { checkAuth } from '../controllers/authController'
-import { createCategory, deletedCategory, getCategoriesOfEvent, getCategory, updateCategory } from '../controllers/categoryController'
+import { createCategory, deleteCategory, getCategoriesOfEvent, getCategory, updateCategory } from '../controllers/categoryController'
 
 
 const categoryRoutes = express.Router()
@@ -14,7 +14,7 @@ categoryRoutes.post('/', checkAuth, asyncHandler(createCategory))
 
 categoryRoutes.patch('/', checkAuth, asyncHandler(updateCategory))
 
-categoryRoutes.delete('/', checkAuth, asyncHandler(deletedCategory))
+categoryRoutes.delete('/', checkAuth, asyncHandler(deleteCategory))
 
 
 export default categoryRoutes

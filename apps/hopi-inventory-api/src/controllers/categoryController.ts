@@ -52,12 +52,13 @@ export const createCategory = async (req: Request, res: Response) => {
     return
   }
 
-  await checkUserCanOperate(hostEventID, userID)
-
+  
   const session = await Event.startSession()
   session.startTransaction()
-
+  
   try {
+    await checkUserCanOperate(hostEventID, userID)
+
     // create new category
     const newCategory = await Category.create([{ name, hostEventID }], { session })
     if (newCategory) console.log('Created 1 new category.')
@@ -113,7 +114,7 @@ export const updateCategory = async (req: Request, res: Response) => {
 
 
 // get categories of an event
-export const deletedCategory = async (req: Request, res: Response) => {
+export const deleteCategory = async (req: Request, res: Response) => {
   const userID = req.user.id
   const { categoryID } = req.body
 
