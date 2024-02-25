@@ -2,9 +2,10 @@ import { Request, Response } from 'express'
 import User from '../models/UserModel'
 
 // get user object
-export const getUser = (req: Request, res: Response) => {
+export const getUser = async (req: Request, res: Response) => {
   const user = req.user
-  res.status(200).json({ status: 'Success', data: { user } })
+  const userObj = await User.findById(user.id).select(['username', 'email', 'eventIDs', 'avatar'])
+  res.status(200).json({ status: 'Success', data: { user: userObj } })
 }
 
 // update user
