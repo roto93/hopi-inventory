@@ -4,7 +4,7 @@ import { checkUserCanOperate } from './utils'
 
 
 
-// get a category
+// get a cost
 export const getCost = async (req: Request, res: Response) => {
   const userID = req.user.id
   const costID = req.params.costID
@@ -106,8 +106,8 @@ export const deleteCost = async (req: Request, res: Response) => {
 
     // delete the cost by given id
     const deletedCost = await Cost.findByIdAndDelete(costID)
-    console.log(`delete cost by category id ${costID}`)
-    res.status(200).json({ status: 'Success', message: "Category deleted.", data: { category: deletedCost } })
+    console.log(`delete cost by cost id ${costID}`)
+    res.status(200).json({ status: 'Success', message: "Cost deleted.", data: { category: deletedCost } })
 
   } catch (e) {
     res.status(500).json({ status: 'Failed', message: e.message })
