@@ -8,9 +8,7 @@ import mongoose from 'mongoose'
 export const getCategoriesOfEvent = async (req: Request, res: Response) => {
   const eventID = req.params.eventID
   try {
-    const event = await Event.findById(eventID)
-    console.log(event.toJSON())
-    event.populate('categoryIDs')
+    const event = await Event.findById(eventID).populate('categoryIDs')
     res.status(200).json({ status: 'Success', data: { categories: event.categoryIDs } })
   } catch (e) {
     console.log(e)
