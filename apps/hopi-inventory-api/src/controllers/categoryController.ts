@@ -30,8 +30,8 @@ export const getCategoriesOfEvent = async (req: Request, res: Response) => {
   const eventID = req.body.eventID
 
   try {
-    const event = await Event.findById(eventID).populate('categoryIDs')
-    res.status(200).json({ status: 'Success', data: { categories: event.categoryIDs } })
+    const categories = await Category.find({ hostEventID: eventID })
+    res.status(200).json({ status: 'Success', data: { categories } })
   } catch (e) {
     console.log(e)
     res.status(500).json({ status: 'Failed', message: e.message })
@@ -53,41 +53,18 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 
 
-  const session = await Event.startSession()
-  session.startTransaction()
-
   try {
     await checkUserCanOperate(hostEventID, userID)
 
     // create new category
-    const newCategory = await Category.create([{ name, hostEventID }], { session })
+    const newCategory = await Category.create({ name, hostEventID })
     if (newCategory) console.log('Created 1 new category.')
 
-    // add new category to event
-    const newEvent = await Event.findByIdAndUpdate(
-      hostEventID,
-      { $push: { categoryIDs: newCategory[0].id } },
-      { new: true, session }
-    )
-
-    if (!newEvent) {
-      await session.abortTransaction()
-      res.status(400).json({ status: 'Failed', message: 'The creation is internally aborted.' })
-      return
-    }
-    console.log('Added new category to event.')
-
-    await session.commitTransaction()
-    console.log('Transaction Finished without error.')
     res.status(200).json({ status: 'Success', message: "New category created.", data: { category: newCategory } })
 
   } catch (e) {
-    session.abortTransaction()
-    console.log('Transaction aborted', e)
     res.status(500).json({ status: 'Failed', message: e.message })
 
-  } finally {
-    session.endSession()
   }
 }
 
@@ -114,53 +91,19 @@ export const deleteCategory = async (req: Request, res: Response) => {
   const userID = req.user.id
   const { categoryID } = req.body
 
-  const session = await mongoose.startSession()
-  session.startTransaction()
-
   try {
-    // delete the category by given id
-    const deletedCategory = await Category.findByIdAndDelete(
-      categoryID,
-      { session }
-    )
-
-    if (!deletedCategory) {
-      await session.abortTransaction()
-      const message = `Category with ID ${categoryID} not found.`
-      console.log(message)
-      res.status(400).json({ status: "Failed", message })
-      return
-    }
-    console.log(`delete category by category id ${categoryID}`)
-
-    await checkUserCanOperate(deletedCategory.hostEventID, userID)
+    // check if user has right to delete this.
+    const category = await Category.findById(categoryID)
+    await checkUserCanOperate(category.hostEventID, userID)
     console.log('The user can delete this category')
 
-    // remove the category id from corresponding event
-    const updatedEvent = await Event.findByIdAndUpdate(
-      deletedCategory.hostEventID,
-      { $pull: { categoryIDs: deletedCategory.id } },
-      { session }
-    )
+    // delete the category by given id
+    const deletedCategory = await Category.findByIdAndDelete(categoryID)
+    console.log(`delete category by category id ${categoryID}`)
 
-    if (!updatedEvent) {
-      await session.abortTransaction()
-      const message = `Event with ID ${deletedCategory.hostEventID} not found.`
-      console.log(message)
-      res.status(400).json({ status: "Failed", message })
-      return
-    }
-    console.log(`Removed category id ${categoryID} from event ${deletedCategory.hostEventID}`)
-
-    await session.commitTransaction()
-    console.log('Transaction Finished without error.')
     res.status(200).json({ status: 'Success', message: "Category deleted.", data: { category: deletedCategory } })
 
   } catch (e) {
-    console.log(e)
-    await session.abortTransaction()
     res.status(500).json({ status: 'Failed', message: e.message })
-  } finally {
-    await session.endSession()
   }
 }

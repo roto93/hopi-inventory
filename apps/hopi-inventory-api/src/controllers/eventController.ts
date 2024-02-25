@@ -7,7 +7,7 @@ import User from '../models/UserModel'
 export const getEvent = async (req: Request, res: Response) => {
   const eventID = req.params.eventID
   try {
-    const event = await Event.findById(eventID).populate('categoryIDs', 'name')
+    const event = await Event.findById(eventID)
     res.status(200).json({ status: 'Success', data: { event } })
   } catch (e) {
     console.log(e)
