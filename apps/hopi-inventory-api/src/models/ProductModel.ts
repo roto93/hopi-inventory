@@ -6,7 +6,8 @@ const productSchema = new Schema({
   inventory: { type: Number, min: 0, require: true },
   soldQuantity: { type: Number, min: 0, require: true },
   price: { type: Number, min: 0, require: true },
-  image: { type: String }
+  image: { type: String },
+  hostEventID: { type: Schema.ObjectId, require: true, ref: 'Event' },
 })
 
 export default model('Product', productSchema)

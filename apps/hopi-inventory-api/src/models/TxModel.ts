@@ -7,7 +7,7 @@ const Order = new Schema({
 
 const txSchema = new Schema({
   time: { type: Date, require: true },
-  hostEvent: { type: Schema.ObjectId, require: true, ref: 'Event' },
+  hostEventID: { type: Schema.ObjectId, require: true, ref: 'Event' },
   orders: [{ type: Order, require: true }],
 }, { timestamps: true })
 
