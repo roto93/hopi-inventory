@@ -5,7 +5,7 @@ import User from '../models/UserModel'
 
 // get single event
 export const getEvent = async (req: Request, res: Response) => {
-  const eventID = req.params.id
+  const eventID = req.params.eventID
   try {
     const event = await Event.findById(eventID).populate('categoryIDs', 'name')
     res.status(200).json({ status: 'Success', data: { event } })
@@ -76,7 +76,7 @@ export const createEvent = async (req: Request, res: Response) => {
 
 // update event
 export const updateEvent = async (req: Request, res: Response) => {
-  const eventID = req.params.id
+  const eventID = req.params.eventID
   const { name, startDate, endDate, image } = req.body
 
   try {
@@ -96,7 +96,7 @@ export const updateEvent = async (req: Request, res: Response) => {
 
 // delete event
 export const deleteEvent = async (req: Request, res: Response) => {
-  const eventID = req.params.id
+  const eventID = req.params.eventID
 
   try {
     const deletedEvent = await Event.findByIdAndDelete(eventID)
