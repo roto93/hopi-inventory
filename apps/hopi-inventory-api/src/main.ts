@@ -13,6 +13,7 @@ import MongoStore from 'connect-mongo'
 import eventRoutes from './routes/eventRoutes';
 import categoryRoutes from './routes/categoryRoutes';
 import costRoutes from './routes/costRoutes';
+import productRoutes from './routes/productRoutes';
 
 if (process.env.NODE_ENV !== 'production') {
   dotenv.config()
@@ -72,6 +73,7 @@ mongoose.connect(process.env.MONGO_URL)
     app.use('/event', eventRoutes)
     app.use('/category', categoryRoutes)
     app.use('/cost', costRoutes)
+    app.use('/product', productRoutes)
 
 
     // start listening
