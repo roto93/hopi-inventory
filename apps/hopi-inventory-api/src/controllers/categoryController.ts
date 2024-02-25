@@ -52,10 +52,10 @@ export const createCategory = async (req: Request, res: Response) => {
     return
   }
 
-  
+
   const session = await Event.startSession()
   session.startTransaction()
-  
+
   try {
     await checkUserCanOperate(hostEventID, userID)
 
@@ -95,14 +95,10 @@ export const createCategory = async (req: Request, res: Response) => {
 
 // update category
 export const updateCategory = async (req: Request, res: Response) => {
-  const { categoryID, name, costIDs, productIDs } = req.body
+  const { categoryID, name } = req.body
 
   try {
-    const updatedCategory = await Category.findByIdAndUpdate(categoryID, {
-      name,
-      costIDs,
-      productIDs,
-    }, { new: true })
+    const updatedCategory = await Category.findByIdAndUpdate(categoryID, { name }, { new: true })
     res.status(200).json({ status: 'Success', data: updatedCategory })
 
   } catch (e) {
