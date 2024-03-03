@@ -26,7 +26,6 @@ export const getTx = async (req: Request, res: Response) => {
 }
 
 
-
 // get all transactions of an event 
 export const getTxes = async (req: Request, res: Response) => {
   const eventID = req.body.eventID
@@ -80,6 +79,7 @@ export const updateTx = async (req: Request, res: Response) => {
 
   try {
     const Tx = await TxModel.findById(txID)
+    if (!Tx) throw Error('The transaction does not exist.')
     await checkUserCanOperate(Tx.hostEventID, userID)
 
     // delete the transaction them modify the product inventory data
@@ -111,6 +111,8 @@ export const deleteTx = async (req: Request, res: Response) => {
 
   try {
     const Tx = await TxModel.findById(txID)
+    if (!Tx) throw Error('The transaction does not exist.')
+
     await checkUserCanOperate(Tx.hostEventID, userID)
 
     // delete the transaction them modify the product inventory data
