@@ -2,7 +2,7 @@
 
 import { currentUserAtom } from '@/_atoms/user.atom'
 import { errorToast, successToast } from '@/_components/PiToasts'
-import { checkAuthQuery } from '@/_lib/queries'
+import { checkAuthQuery, logoutQuery } from '@/_lib/authQueries'
 import { getUser, logoutUser } from '@/_lib/storageHelper'
 import { useAtom } from 'jotai'
 import { useRouter } from 'next/navigation'
@@ -12,6 +12,19 @@ const useAuth = (isInUserPage: boolean = true) => {
   const [currentUser, setCurrentUser] = useAtom(currentUserAtom)
   const [isLoading, setIsLoading] = useState(true);
   const router = useRouter()
+
+  const logout = async () => {
+    try {
+      const json = await logoutQuery()
+      if (json.status === 'Success') {
+        successToast(json.message)
+        logoutUser()
+        router.replace('/')
+      }
+    } catch (e) {
+      errorToast(e as string)
+    }
+  }
 
   useEffect(() => {
     const cachedUserID = getUser()
@@ -30,11 +43,11 @@ const useAuth = (isInUserPage: boolean = true) => {
 
         const res = await checkAuthQuery()
         const cacheValid = res.status !== 'Failed'
-
+        console.log(res)
         if (!isInUserPage && cacheValid) {
           router.replace('/user')
-          setCurrentUser(cachedUserID)
         }
+        setCurrentUser(cachedUserID)
 
       } catch (e: any) {
         console.log(e.message)
@@ -54,7 +67,8 @@ const useAuth = (isInUserPage: boolean = true) => {
 
   return {
     currentUser: currentUser,
-    isCheckingUser: isLoading
+    isCheckingUser: isLoading,
+    logout
   }
 }
 

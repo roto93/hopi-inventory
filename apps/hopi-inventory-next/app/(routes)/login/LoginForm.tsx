@@ -1,7 +1,7 @@
 'use client'
 
 import useAuth from '@/_hooks/useAuth'
-import { loginQuery } from '@/_lib/queries'
+import { loginQuery } from '@/_lib/authQueries'
 import { setUser } from '@/_lib/storageHelper'
 import { Button, Form, Input, Skeleton } from 'antd'
 import { useRouter } from 'next/navigation'

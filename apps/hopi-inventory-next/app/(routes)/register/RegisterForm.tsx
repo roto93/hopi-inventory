@@ -6,7 +6,7 @@ import { Controller, SubmitHandler } from 'react-hook-form'
 import { Button, Form, Input, Skeleton } from 'antd'
 import { setUser } from '@/_lib/storageHelper'
 import { useRouter } from 'next/navigation'
-import { registerQuery } from '@/_lib/queries'
+import { registerQuery } from '@/_lib/authQueries'
 import useAuth from '@/_hooks/useAuth'
 import { errorToast } from '@/_components/PiToasts'
 

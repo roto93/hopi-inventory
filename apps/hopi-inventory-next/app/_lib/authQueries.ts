@@ -28,14 +28,14 @@ export const checkAuthQuery = async () => {
   return data as LoginResponse
 }
 
-type APIStatus = 'Success' | 'Failed'
+export type APIStatus = 'Success' | 'Failed'
 
-type BasicResponse = {
+export type BasicResponse = {
   status: APIStatus
   message: string
 }
 
-type LoginResponse = {
+export type LoginResponse = {
   status: 'Success'
   message: string
   userID: string
@@ -43,5 +43,14 @@ type LoginResponse = {
   status: 'Failed'
   message: string
 }
-type LogoutResponse = BasicResponse
-type RegisterResponse = BasicResponse
+export type LogoutResponse = BasicResponse
+export type RegisterResponse = BasicResponse
+export type DataResponse = {
+  status: 'Success'
+  message: string
+  data: unknown
+} | {
+  status: 'Failed'
+  message: string
+  data: undefined
+}
