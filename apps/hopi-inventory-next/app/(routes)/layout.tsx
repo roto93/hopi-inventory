@@ -1,5 +1,6 @@
 import Header from '@/_components/Header/Header';
 import { PiToast } from '@/_components/PiToasts';
+import QueryProvider from '@/_lib/QueryProvider';
 import '@/_styles/global.css';
 import '@/_styles/reset.css';
 import { Metadata } from 'next';
@@ -15,14 +16,16 @@ interface Prop {
 
 export default function RootLayout({ children, }: Prop) {
   return (
-    <html lang="en">
-      <body>
-        <Header />
-        <main className='main'>
-          {children}
-        </main>
-        <PiToast />
-      </body>
-    </html>
+    <QueryProvider>
+      <html lang="en">
+        <body>
+          <Header />
+          <main className='main'>
+            {children}
+          </main>
+          <PiToast />
+        </body>
+      </html >
+    </QueryProvider>
   );
 }
