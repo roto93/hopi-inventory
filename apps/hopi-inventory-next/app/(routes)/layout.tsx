@@ -1,12 +1,11 @@
 import Header from '@/_components/Header/Header';
 import { PiToast } from '@/_components/PiToasts';
+import AntdProvider from '@/_lib/AntdProvider';
 import QueryProvider from '@/_lib/QueryProvider';
+import { inter } from '@/_lib/fonts';
 import '@/_styles/global.css';
 import '@/_styles/reset.css';
 import { Metadata } from 'next';
-import { Inter } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Hopi Inventory',
@@ -22,11 +21,13 @@ export default function RootLayout({ children, }: Prop) {
     <QueryProvider>
       <html lang="en">
         <body className={inter.className}>
-          <Header />
-          <main className='main'>
-            {children}
-          </main>
-          <PiToast />
+          <AntdProvider>
+            <Header />
+            <main className='main'>
+              {children}
+            </main>
+            <PiToast />
+          </AntdProvider>
         </body>
       </html >
     </QueryProvider>
