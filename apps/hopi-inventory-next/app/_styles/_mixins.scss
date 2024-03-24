@@ -5,3 +5,23 @@
   align-items: $ai;
   gap: $gap
 }
+
+@mixin centerChild() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin button() {
+  user-select: none;
+  cursor: pointer;
+  opacity: 1;
+
+  &:hover {
+    opacity: 0.9;
+  }
+
+  &:active {
+    opacity: 0.5
+  }
+}

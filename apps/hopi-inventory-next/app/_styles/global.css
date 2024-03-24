@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html,
 body {
   width: 100%;
@@ -17,8 +21,5 @@ body {
 
 body>.main {
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: stretch;
+  height: 0px;
 }

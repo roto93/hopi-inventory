@@ -3,6 +3,7 @@
 .container {
   @include flexbox(row, space-between, center, 16px);
   height: 60px;
+  min-height: 60px;
   padding: 0 40px;
   background-color: #aaa;
 }

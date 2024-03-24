@@ -1,0 +1,40 @@
+@import '../../_styles/mixins';
+
+
+.eventLayout {
+  height: 100%;
+  @include flexbox(row, flex-start, stretch);
+}
+
+.contentContainer {
+  border: 1px solid #000;
+  width: 100%;
+}
+
+
+// aside
+.aside {
+  min-width: 240px;
+  overflow: auto;
+}
+
+.nav {
+  width: 100%;
+}
+
+.navList {
+  width: 100%;
+  @include flexbox(column, flex-start, stretch, 8px);
+  padding:16px;
+}
+
+.navLink {
+  @include button;
+  @include flexbox(row, flex-start, center, 8px);
+  padding: 8px 20px;
+  height: 48px;
+  background-color: #fae3e3;
+  border-radius: 8px;
+  color: black;
+  text-decoration: none;
+}

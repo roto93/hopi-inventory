@@ -1,19 +1,18 @@
 import { eventsQuery } from '@/_lib/eventQueries'
+import styles from './user.module.scss'
+import EventButton from './EventButton'
+import { headers } from 'next/headers'
+
 
 const UserPage = async () => {
-  const events = await eventsQuery()
-
+  const events = await eventsQuery(headers())
   return (
-    <div>
-      {/* UserPage {currentUser} */}
-      <div>
-        {events?.map(i => (<>
-          <p>{i.name}</p>
-          <p>{i.startDate}</p>
-          <p>{i.endDate}</p>
-        </>
-        ))}
-      </div>
+    <div className={styles.container}>
+      {events?.map(event => (
+        <EventButton
+          event={event}
+        />
+      ))}
     </div>
   )
 }

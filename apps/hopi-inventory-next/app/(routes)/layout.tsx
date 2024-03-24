@@ -4,6 +4,9 @@ import QueryProvider from '@/_lib/QueryProvider';
 import '@/_styles/global.css';
 import '@/_styles/reset.css';
 import { Metadata } from 'next';
+import { Inter } from 'next/font/google'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
   title: 'Hopi Inventory',
@@ -18,7 +21,7 @@ export default function RootLayout({ children, }: Prop) {
   return (
     <QueryProvider>
       <html lang="en">
-        <body>
+        <body className={inter.className}>
           <Header />
           <main className='main'>
             {children}

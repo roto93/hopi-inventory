@@ -1,0 +1,26 @@
+@import '../../_styles/mixins';
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-template-rows: auto;
+  gap: 20px;
+  padding: 20px;
+}
+
+.eventButton {
+  @include button;
+  @include flexbox(column, center, center, 16px);
+  background-color: #aaa ;
+  height: 200px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+.eventName {
+  font-size: 24px;
+}
+
+.eventDates {
+  font-size: 16px;
+}
