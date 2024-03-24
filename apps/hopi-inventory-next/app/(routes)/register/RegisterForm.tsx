@@ -1,18 +1,16 @@
 'use client'
 
-import React from 'react'
-import useSignupForm, { signupInputs } from './useSignupForm'
-import { Controller, SubmitHandler } from 'react-hook-form'
-import { Button, Form, Input, Skeleton } from 'antd'
-import { setUser } from '@/_lib/storageHelper'
-import { useRouter } from 'next/navigation'
-import { registerQuery } from '@/_lib/authQueries'
-import useAuth from '@/_hooks/useAuth'
 import { errorToast } from '@/_components/PiToasts'
+import useAuth from '@/_hooks/useAuth'
+import { registerQuery } from '@/_lib/authQueries'
+import { Button, Form, Input, Skeleton } from 'antd'
+import { useRouter } from 'next/navigation'
+import { Controller, SubmitHandler } from 'react-hook-form'
+import useSignupForm, { signupInputs } from './useSignupForm'
 
 const RegisterForm = () => {
-  const { isCheckingUser, currentUser } = useAuth(false)
-  const canInteract = !isCheckingUser && currentUser === null
+  const { isCheckingUser, currentUser } = useAuth()
+  const canInteract = !isCheckingUser && !currentUser
 
   const {
     registers,

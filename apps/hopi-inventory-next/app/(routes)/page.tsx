@@ -6,7 +6,7 @@ import { Button, Flex } from 'antd'
 import useAuth from '@/_hooks/useAuth';
 
 export default function Page() {
-  const { isCheckingUser, currentUser } = useAuth(false)
+  const { isCheckingUser, currentUser } = useAuth()
 
   if (isCheckingUser) return 'Loading...'
   return (

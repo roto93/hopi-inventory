@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { headers } from 'next/headers'
 
 const API = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -24,8 +25,23 @@ export const logoutQuery = async () => {
 }
 
 export const checkAuthQuery = async () => {
-  const { status, data } = await API.get('auth/testPrivate')
-  return data as LoginResponse
+  try {
+    const { status, data } = await API.get<UserResponse>('user/me')
+    return data.data.user
+  } catch (e) {
+    console.log(e)
+    return null
+  }
+}
+
+export const checkAuthAction = async (cookie: string | null) => {
+  try {
+    const { status, data } = await API.get<UserResponse>('user/me', { headers: { "Cookie": cookie } })
+    return data
+  } catch (e) {
+    console.log(e)
+    return null
+  }
 }
 
 export type APIStatus = 'Success' | 'Failed'
@@ -45,6 +61,17 @@ export type LoginResponse = {
 }
 export type LogoutResponse = BasicResponse
 export type RegisterResponse = BasicResponse
+export type UserResponse = {
+  status: 'Success',
+  data: {
+    user: {
+      _id: string
+      email: string
+      username: string
+      eventIDs: string
+    }
+  }
+}
 export type DataResponse = {
   status: 'Success'
   message: string

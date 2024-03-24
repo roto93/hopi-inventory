@@ -1,17 +1,16 @@
 'use client'
 
+import { errorToast } from '@/_components/PiToasts'
 import useAuth from '@/_hooks/useAuth'
 import { loginQuery } from '@/_lib/authQueries'
-import { setUser } from '@/_lib/storageHelper'
 import { Button, Form, Input, Skeleton } from 'antd'
 import { useRouter } from 'next/navigation'
 import { Controller, SubmitHandler } from 'react-hook-form'
 import useLoginForm, { loginInputs } from './useLoginForm'
-import { errorToast } from '@/_components/PiToasts'
 
 const LoginForm = () => {
-  const { isCheckingUser, currentUser } = useAuth(false)
-  const canInteract = !isCheckingUser && currentUser === null
+  const { isCheckingUser, currentUser } = useAuth()
+  const canInteract = !isCheckingUser && !currentUser
 
   const {
     registers,
@@ -28,12 +27,12 @@ const LoginForm = () => {
     try {
       const data = await loginQuery(_data)
       if (data.status === 'Success') {
-        setUser(data.userID)
         router.replace('/user')
         reset()
       }
     } catch (e: any) {
-      errorToast(e.response.data.message)
+      console.log(e)
+      errorToast(e.response.data.message[0])
     }
   }
 
