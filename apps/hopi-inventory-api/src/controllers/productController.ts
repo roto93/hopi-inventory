@@ -25,7 +25,7 @@ export const getProduct = async (req: Request, res: Response) => {
 
 // get all products of an event
 export const getProducts = async (req: Request, res: Response) => {
-  const eventID = req.body.eventID
+  const eventID = req.params.eventID
 
   try {
     const products = await Product.find({ hostEventID: eventID })

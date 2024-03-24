@@ -8,7 +8,7 @@ const productRoutes = express.Router()
 
 productRoutes.get('/:productID', checkAuth, asyncHandler(getProduct))
 
-productRoutes.get('/', checkAuth, asyncHandler(getProducts))
+productRoutes.get('/all/:eventID', checkAuth, asyncHandler(getProducts))
 
 productRoutes.post('/', checkAuth, asyncHandler(createProduct))
 
