@@ -53,7 +53,7 @@ export const loginFailed = async (req: Request & { session: { messages: string }
   const error = req.flash('error')
   req.logout((e) => {
     if (e) next(e)
-    res.status(401).json({
+    res.status(400).json({
       status: 'Failed',
       message: error
     })
@@ -69,6 +69,6 @@ export function checkAuth(req: Request, res: Response, next: NextFunction) {
   if (req.isAuthenticated() && req.user) {
     return next();
   }
-  console.log(req.flash('error'))
+  // console.log(req.flash('error'))
   res.redirect('/auth/loginFailed');
 }
