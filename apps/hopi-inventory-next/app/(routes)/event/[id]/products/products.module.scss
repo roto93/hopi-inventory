@@ -1,0 +1,53 @@
+@import '../../../../_styles/mixins';
+
+.container {
+  width: 100%;
+  padding: 20px;
+}
+
+.header {
+  @include flexbox(row, space-between, center, 16px);
+  height: 60px;
+  margin-bottom: 8px;
+}
+
+.title {
+  font-size: 24px;
+}
+
+
+
+.productList {
+  width: 100%;
+}
+
+.headRow {
+  padding: 16px 20px;
+
+  div {
+    font-size: 16px;
+    font-weight: 600;
+  }
+}
+
+.row {
+  padding: 16px 20px;
+  height: 60px;
+
+  @include flexbox(row, flex-start, center, );
+
+  &:nth-child(2n) {
+    background-color: #eee;
+  }
+
+  &:nth-child(2n+1) {
+    background-color: #ddd;
+  }
+}
+
+
+.name {}
+
+.price {}
+
+.inventory {}
