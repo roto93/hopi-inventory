@@ -1,0 +1,6 @@
+@import '../../_styles/mixins';
+
+.container {
+  @include flexbox(column, center, center, 16px);
+  width: 100%;
+}
