@@ -3,6 +3,7 @@ import { Product } from '@/_lib/productQueries'
 import { Button } from 'antd'
 import { FC, useState } from 'react'
 import AddProductModal from './AddProductModal'
+import DeleteProductModal from './DeleteProductModal'
 import ProductListHeader from './ProductListHeader'
 import PruductRow from './PruductRow'
 import styles from './products.module.scss'
@@ -18,7 +19,7 @@ const Products: FC<Prop> = ({ products }) => {
 
   const [selectedProductIDs, setSelectedProductIDs] = useState<string[]>([]);
 
-  
+
   const onAddClick = () => {
     openModal()
   }
@@ -48,7 +49,7 @@ const Products: FC<Prop> = ({ products }) => {
             key={product._id}
             product={product}
             selectedIDs={selectedProductIDs}
-            onClick={selectProduct}
+            onSelect={selectProduct}
           />
         ))}
       </ul>
@@ -57,6 +58,8 @@ const Products: FC<Prop> = ({ products }) => {
         isOpen={isModalOpen}
         close={closeModal}
       />
+
+      <DeleteProductModal />
 
     </div>
   )

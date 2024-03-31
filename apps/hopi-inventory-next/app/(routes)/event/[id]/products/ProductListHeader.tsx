@@ -7,9 +7,10 @@ const ProductListHeader = () => {
     <Row className={styles.headRow}>
       <Col span={1}></Col>
       <Col span={11}>名稱</Col>
-      <Col span={4}>價格</Col>
-      <Col span={4}>庫存</Col>
-      <Col span={4}>售出</Col>
+      <Col span={3}>價格</Col>
+      <Col span={3}>庫存</Col>
+      <Col span={3}>售出</Col>
+      <Col span={3}>動作</Col>
     </Row>
   )
 }

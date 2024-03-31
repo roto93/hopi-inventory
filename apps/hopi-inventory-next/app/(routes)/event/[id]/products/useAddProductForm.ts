@@ -5,7 +5,7 @@ export type productInputs = {
   inventory: number
   soldQuantity: number
   price: number
-  image?: File
+  image?: string
   categoryID?: string
   hostEventID: string
 }

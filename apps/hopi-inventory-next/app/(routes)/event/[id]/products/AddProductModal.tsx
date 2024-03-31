@@ -1,8 +1,10 @@
 import { errorToast } from '@/_components/PiToasts'
-import { Button, Form, Input, InputNumber, Modal } from 'antd'
+import { addProductQuery } from '@/_lib/productQueries'
+import { Button, Form, Input, InputNumber, InputRef, Modal } from 'antd'
 import { useParams } from 'next/navigation'
-import { FC } from 'react'
+import { FC, useRef } from 'react'
 import { Controller, SubmitHandler } from 'react-hook-form'
+import { revalidateAction } from './revalidateAction'
 import useAddProductForm, { productInputs } from './useAddProductForm'
 
 interface Prop {
@@ -12,6 +14,8 @@ interface Prop {
 
 const AddProductModal: FC<Prop> = ({ isOpen, close }) => {
   const { id: hostEventID } = useParams()
+  const nameInputRef = useRef<InputRef | null>(null)
+
   const {
     registers,
     formState,
@@ -26,14 +30,12 @@ const AddProductModal: FC<Prop> = ({ isOpen, close }) => {
       // add hostEventID, soldQuantity
       _data = { ..._data, hostEventID: hostEventID as string }
 
-      // const data = await addProductQuery(_data)
-      // if (data.status === 'Success') {
-      //   reset()
-      // }
-
-      console.log(_data)
-      reset()
-      close()
+      const data = await addProductQuery(_data)
+      if (data.status === 'Success') {
+        reset()
+        revalidateAction('products')
+        nameInputRef.current?.focus()
+      }
     } catch (e: any) {
       console.log(e)
       errorToast(e.response.data.message[0])
@@ -67,7 +69,7 @@ const AddProductModal: FC<Prop> = ({ isOpen, close }) => {
             name={'name'}
             control={control}
             render={({ field }) => (
-              <Input {...field} autoComplete='off' placeholder='name' />
+              <Input {...field} autoComplete='off' placeholder='name' ref={nameInputRef} />
             )}
           />
 

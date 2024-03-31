@@ -10,7 +10,6 @@ interface Prop {
 const page: NextPage<Prop> = async ({ params }) => {
   const eventID = params.id
   const products = await productsQuery(headers(), eventID)
-
   return (
     <Products products={products} />
   )

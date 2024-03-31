@@ -1,40 +1,54 @@
+import { useDeletingProduct } from '@/_atoms/product.atom'
 import { inter } from '@/_lib/fonts'
-import { Row, Col, Checkbox } from 'antd'
-import React, { FC } from 'react'
-import styles from './products.module.scss'
 import { Product } from '@/_lib/productQueries'
-import { CheckboxChangeEvent } from 'antd/es/checkbox'
+import { Button, Checkbox, Col, Row } from 'antd'
+import { FC } from 'react'
+import styles from './products.module.scss'
 
 interface Prop {
   product: Product
   selectedIDs?: string[]
-  onClick: (clickedProductID: string) => void
+  onSelect: (clickedProductID: string) => void
 }
 
-const PruductRow: FC<Prop> = ({ product, selectedIDs, onClick }) => {
+const PruductRow: FC<Prop> = ({ product, selectedIDs, onSelect }) => {
 
-  const onChange = () => {
-    onClick(product._id)
+  const handleCheck = () => {
+    onSelect(product._id)
   }
+
+  const openEditModel = () => { }
+
+  const [, setDeletingProduct] = useDeletingProduct()
 
   return (
     <Row className={`${styles.row} ${inter.className}`} >
       <Col span={1}>
-        <Checkbox checked={selectedIDs?.some(id => id == product._id)} onChange={onChange} />
+        <Checkbox
+          checked={selectedIDs?.some(id => id == product._id)}
+          onChange={handleCheck}
+        />
       </Col>
       <Col span={11}>
         <p className={styles.name}>{product.name}</p>
       </Col>
-      <Col span={4}>
+      <Col span={3}>
         <p className={styles.price}>${product.price}</p>
       </Col>
-      <Col span={4}>
+      <Col span={3}>
         <p className={styles.inventory}>{product.inventory}</p>
       </Col>
-      <Col span={4}>
+      <Col span={3}>
         <p className={styles.inventory}>{product.soldQuantity}</p>
       </Col>
-    </Row>)
+      <Col span={3} style={{ display: 'flex', gap: 8 }}>
+        <Button size='small' className={styles.inventory} onClick={() => openEditModel()}>Edit</Button>
+        <Button danger size='small' className={styles.inventory} onClick={() => {
+          setDeletingProduct(product)
+        }}>Delete</Button>
+      </Col>
+    </Row>
+  )
 }
 
 export default PruductRow

@@ -41,6 +41,7 @@ export const getProducts = async (req: Request, res: Response) => {
 // create a product
 export const createProduct = async (req: Request, res: Response) => {
   const userID = req.user.id
+  console.log(req)
   const { hostEventID, name, inventory, soldQuantity, price, image, categoryID } = req.body
 
   try {
