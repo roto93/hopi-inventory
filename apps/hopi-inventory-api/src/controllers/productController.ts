@@ -107,9 +107,9 @@ export const deleteProduct = async (req: Request, res: Response) => {
     console.log('The user can delete this product')
 
     // delete the product by given id
-    const deletedCost = await Product.findByIdAndDelete(productID)
-    console.log(`delete product by category id ${productID}`)
-    res.status(200).json({ status: 'Success', message: "Category deleted.", data: { category: deletedCost } })
+    const deletedProduct = await Product.findByIdAndDelete(productID)
+    console.log(`delete product by product id ${productID}`)
+    res.status(200).json({ status: 'Success', message: "Product deleted.", data: { product: deletedProduct } })
 
   } catch (e) {
     res.status(500).json({ status: 'Failed', message: e.message })
